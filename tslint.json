@@ -4,10 +4,7 @@
  */
 
 {
-  "extends": [
-    "tslint-microsoft-contrib",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint-microsoft-contrib", "tslint-config-prettier"],
   "rules": {
     "mocha-no-side-effect-code": false,
     "missing-jsdoc": false,
@@ -17,6 +14,7 @@
     "no-void-expression": false,
     "no-redundant-jsdoc": false,
     "prefer-type-cast": false,
+    "no-console": false,
     "typedef": [
       true,
       "parameter",
