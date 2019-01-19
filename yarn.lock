@@ -75,6 +75,11 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.4.tgz#821878b81bfab971b93a265a561d54ea61f9059f"
   integrity sha512-Set5ZdrAaKI/qHdFlVMgm/GsAv/wkXhSTuZFkJ+JI7HK+wIkIlOaUXSXieIvJ0+OvGIqtREFoE+NHJtEq0gtEw==
 
+"@types/url-regex@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@types/url-regex/-/url-regex-4.1.0.tgz#12908eeec04e8e95d40f5c2e28af0ba64a5e62fe"
+  integrity sha512-+a+ePEm9DZ0FIW7kZVGW3S2qpnVh02IOLuvJct0qdIN7VvQBTLo0kTltSlnVdVw/WVTBEh2rzTaUkC81CVENXA==
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -2181,6 +2186,11 @@ invert-kv@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-2.0.0.tgz#7393f5afa59ec9ff5f67a27620d11c226e3eec02"
   integrity sha512-wPVv/y/QQ/Uiirj/vh3oP+1Ww+AWehmi1g5fFWGPF6IpCBCDVrhgHRMvrLfdYcwDh3QJbGXDW4JAuzxElLSqKA==
+
+ip-regex@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"
+  integrity sha1-3FiQdvZZ9BnCIgOaMzFvHHOH7/0=
 
 ip-regex@^3.0.0:
   version "3.0.0"
@@ -4765,6 +4775,11 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tlds@^1.187.0:
+  version "1.203.1"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.203.1.tgz#4dc9b02f53de3315bc98b80665e13de3edfc1dfc"
+  integrity sha512-7MUlYyGJ6rSitEZ3r1Q1QNV8uSIzapS8SmmhSusBuIc7uIxPPwsKllEP0GRp1NS6Ik6F+fRZvnjDWm3ecv2hDw==
+
 tmpl@1.0.x:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
@@ -5003,6 +5018,14 @@ urix@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
+
+url-regex@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/url-regex/-/url-regex-4.1.1.tgz#a5617b22e15e26dac57ce74c3f52088bcdfec995"
+  integrity sha512-ViSDgDPNKkrQHI81GLCjdDN+Rsk3tAW/uLXlBOJxtcHzWZjta58Z0APXhfXzS89YszsheMnEvXeDXsWUB53wwA==
+  dependencies:
+    ip-regex "^1.0.1"
+    tlds "^1.187.0"
 
 url@^0.11.0:
   version "0.11.0"

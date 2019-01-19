@@ -15,6 +15,7 @@
     "no-redundant-jsdoc": false,
     "prefer-type-cast": false,
     "no-console": false,
+    "non-literal-fs-path": false,
     "typedef": [
       true,
       "parameter",
