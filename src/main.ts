@@ -1,16 +1,20 @@
 import * as fs from 'graceful-fs';
 import * as path from 'path';
+import * as pouchdb from "pouchdb";
 import { JSDOM } from 'jsdom';
 import { Navigation } from './navigation';
 export class Main {
   private manifests = './nav_files';
   public async run(): Promise<void> {
+    const db = new pouchdb('https://couch.parkinson.im/navigation')
+
     const files = await this.getFileContent();
     const navigation = await this.processFiles(files);
     console.log(`Test ${navigation.length}`);
     
     fs.writeFileSync(path.resolve('./test.json'), JSON.stringify(navigation));
 
+    db.bulkDocs((navigation));
   }
 
   private processFiles(files: Buffer[]) {
