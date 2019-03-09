@@ -1,40 +1,63 @@
-import * as commander from 'commander';
-import { LinkExtractor } from './LinkExtractor';
-
-commander
-  .version('0.1.0', '-v, --version')
-  .option('-f, --folder <cmd>', 'Folder')
-  .option('-o, --output <cmd>', 'Output File')
-  .option('-u, --url <cmd>', 'Url')
-  .parse(process.argv);
+import * as fs from 'graceful-fs';
+import * as path from 'path';
+import { JSDOM } from 'jsdom';
+import { Navigation } from './navigation';
 export class Main {
-  public run(
-    inputPath: string = '',
-    url: string = '',
-    outputPath: string,
-  ): void {
-    const linkExtractor = new LinkExtractor();
-    console.log(inputPath);
+  private manifests = './nav_files';
+  public async run(): Promise<void> {
+    const files = await this.getFileContent();
+    const navigation = await this.processFiles(files);
+    console.log(`Test ${navigation.length}`);
+    
+    fs.writeFileSync(path.resolve('./test.json'), JSON.stringify(navigation));
 
-    let output: string[] = [];
-    linkExtractor
-      .extactFromFiles(inputPath)
-      .then((value: string[]) => {
-        output = output.concat(value);
-        console.log(value);
-      })
-      .catch((value: string[]) => {
-        console.log(value);
+  }
+
+  private processFiles(files: Buffer[]) {
+    return new Promise<Navigation[]>(resolve => {
+      let navigation: Navigation[] = [];
+      files.forEach(file => {
+        const jsdom = new JSDOM(file);
+        
+  
+        jsdom.window.document
+          .querySelectorAll('nav.manifest > .doc-map > li')
+          .forEach(li => {
+        console.log(jsdom.window.document.querySelector('title').innerHTML);
+            navigation.push( new Navigation(li))
+          });
       });
 
-    output = output.concat(linkExtractor.extractFromUrl(url));
+      resolve(navigation);
+    });
+  }
+  private getFileContent(): Promise<Buffer[]> {
+    return new Promise<Buffer[]>(resolve => {
+      let buffers: Buffer[] = [];
+      fs.readdir(
+        path.resolve(this.manifests),
+        (err: NodeJS.ErrnoException, files: string[]) => {
+          if (err) {
+            console.log(err);
+          } else {
+            files.forEach(file => {
+              // console.log(file);
+              buffers.push(
+                fs.readFileSync(`${path.resolve(this.manifests)}\\${file}`),
+              );
+              console.log(buffers.length);
+            });
+            console.log(buffers.length);
 
-    console.log(outputPath);
-    console.log(output);
+            resolve(buffers);
+          }
+        },
+      );
+    });
   }
 }
 
 const main = new Main();
-// console.log(commander);
 
-main.run(commander.folder, commander.url, commander.output);
+main.run();
+// console.log(commander);
