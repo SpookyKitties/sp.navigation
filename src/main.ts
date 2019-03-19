@@ -2,9 +2,10 @@ import * as fs from 'graceful-fs';
 import * as path from 'path';
 // import * as pouchdb from 'pouchdb';
 import { JSDOM } from 'jsdom';
-import { Navigation } from './navigation';
+import { Navigation, TopNavigation } from './navigation';
+import { INavigation } from './INavigation';
 export class Main {
-  private manifests = './nav_files';
+  private manifests = './base_manifest_files';
   public async run(): Promise<void> {
     // const db = new pouchdb('https://couch.parkinson.im/navigation');
 
@@ -19,21 +20,30 @@ export class Main {
 
   private processFiles(files: Buffer[]) {
     return new Promise<Navigation[]>(resolve => {
-      let navigation: Navigation[] = [];
-      files.forEach(file => {
+      let navigation: INavigation[] = [];
+      files.forEach(async file => {
         const jsdom = new JSDOM(file);
+        const header = jsdom.window.document.querySelector('header');
 
-        jsdom.window.document
-          .querySelectorAll('nav.manifest > .doc-map > li')
-          .forEach(li => {
-            console.log(jsdom.window.document.querySelector('title').innerHTML);
-            const id = `navigation-${jsdom.window.document
-              .querySelector('html')
-              .getAttribute('data-aid')}`;
-            console.log(id);
+        const id = `navigation-${jsdom.window.document
+          .querySelector('html')
+          .getAttribute('data-aid')}`;
+        console.log(header.innerHTML);
+        const topNavigation = new TopNavigation();
+        await topNavigation.newNavigation(header, id, jsdom);
 
-            navigation.push(new Navigation(li, id));
-          });
+        navigation.push(topNavigation);
+        // jsdom.window.document
+        //   .querySelectorAll('nav.manifest > .doc-map > li')
+        //   .forEach(li => {
+        //     // console.log(jsdom.window.document.querySelector('title').innerHTML);
+        //     const id = `navigation-${jsdom.window.document
+        //       .querySelector('html')
+        //       .getAttribute('data-aid')}`;
+        //     // console.log(id);
+
+        //     navigation.push(new Navigation(li, id));
+        //   });
       });
 
       resolve(navigation);
@@ -50,9 +60,17 @@ export class Main {
           } else {
             files.forEach(file => {
               // console.log(file);
-              buffers.push(
-                fs.readFileSync(`${path.resolve(this.manifests)}\\${file}`),
-              );
+
+              if (
+                fs
+                  .lstatSync(`${path.resolve(this.manifests)}\\${file}`)
+                  .isFile()
+              ) {
+                buffers.push(
+                  fs.readFileSync(`${path.resolve(this.manifests)}\\${file}`),
+                );
+              }
+
               console.log(buffers.length);
             });
             console.log(buffers.length);
