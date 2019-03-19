@@ -1,20 +1,20 @@
 import * as fs from 'graceful-fs';
 import * as path from 'path';
-import * as pouchdb from "pouchdb";
+// import * as pouchdb from 'pouchdb';
 import { JSDOM } from 'jsdom';
 import { Navigation } from './navigation';
 export class Main {
   private manifests = './nav_files';
   public async run(): Promise<void> {
-    const db = new pouchdb('https://couch.parkinson.im/navigation')
+    // const db = new pouchdb('https://couch.parkinson.im/navigation');
 
     const files = await this.getFileContent();
     const navigation = await this.processFiles(files);
     console.log(`Test ${navigation.length}`);
-    
+
     fs.writeFileSync(path.resolve('./test.json'), JSON.stringify(navigation));
 
-    db.bulkDocs((navigation));
+    // db.bulkDocs(navigation);
   }
 
   private processFiles(files: Buffer[]) {
@@ -22,13 +22,17 @@ export class Main {
       let navigation: Navigation[] = [];
       files.forEach(file => {
         const jsdom = new JSDOM(file);
-        
-  
+
         jsdom.window.document
           .querySelectorAll('nav.manifest > .doc-map > li')
           .forEach(li => {
-        console.log(jsdom.window.document.querySelector('title').innerHTML);
-            navigation.push( new Navigation(li))
+            console.log(jsdom.window.document.querySelector('title').innerHTML);
+            const id = `navigation-${jsdom.window.document
+              .querySelector('html')
+              .getAttribute('data-aid')}`;
+            console.log(id);
+
+            navigation.push(new Navigation(li, id));
           });
       });
 

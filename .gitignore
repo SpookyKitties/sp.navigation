@@ -31,3 +31,4 @@ build/
 # Build and Dist folders
 build/
 dist/
+*.json

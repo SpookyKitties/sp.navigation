@@ -3,13 +3,21 @@ export class Navigation {
   public title: string;
   public shortTitle: string;
   public url: string;
+  public _id: string = undefined;
   public navigation: Navigation[] = [];
-  constructor(element: Element) {
+  constructor(element: Element, id: string = undefined) {
+    this._id = id;
     const tempElement = element.firstElementChild;
     const titleElement = tempElement.querySelector('.title');
     const shortTitleElement = tempElement.querySelector('.short-title');
-    this.title = titleElement ? titleElement.innerHTML : '';
-    this.shortTitle = shortTitleElement ? shortTitleElement.innerHTML : '';
+    this.title = (titleElement ? titleElement.innerHTML : '').replace(
+      `&nbsp;`,
+      `\u00A0`,
+    );
+    this.shortTitle = (shortTitleElement
+      ? shortTitleElement.innerHTML
+      : ''
+    ).replace(`&nbsp;`, `\u00A0`);
     if (
       tempElement.hasAttribute('href') &&
       tempElement.getAttribute('href').includes('#map')
