@@ -1,4 +1,5 @@
 // import * as lodash from 'lodash';
+import * as he from 'he';
 export class Navigation {
   public title: string;
   public shortTitle: string;
@@ -10,14 +11,10 @@ export class Navigation {
     const tempElement = element.firstElementChild;
     const titleElement = tempElement.querySelector('.title');
     const shortTitleElement = tempElement.querySelector('.short-title');
-    this.title = (titleElement ? titleElement.innerHTML : '').replace(
-      `&nbsp;`,
-      `\u00A0`,
+    this.title = he.decode(titleElement ? titleElement.innerHTML : '');
+    this.shortTitle = he.decode(
+      shortTitleElement ? shortTitleElement.innerHTML : '',
     );
-    this.shortTitle = (shortTitleElement
-      ? shortTitleElement.innerHTML
-      : ''
-    ).replace(`&nbsp;`, `\u00A0`);
     if (
       tempElement.hasAttribute('href') &&
       tempElement.getAttribute('href').includes('#map')
