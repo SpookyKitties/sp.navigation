@@ -52,25 +52,25 @@ export class Navigation implements INavigation {
   constructor(element: Element, id: string = undefined) {
     this._id = id;
     const tempElement = element.firstElementChild;
-    const titleElement = tempElement.querySelector('.title');
-    const shortTitleElement = tempElement.querySelector('.short-title');
+    const titleElement = element.querySelector('.title');
+    const shortTitleElement = element.querySelector('.short-title');
     this.title = he.decode(titleElement ? titleElement.innerHTML : '');
     this.shortTitle = he.decode(
       shortTitleElement ? shortTitleElement.innerHTML : '',
     );
-    const section = tempElement.id === 'intro';
+    const section =
+      tempElement.id === 'intro' || tempElement.classList.contains('title');
 
     if (
       (tempElement.hasAttribute('href') &&
-        tempElement.getAttribute('href').includes('#map')) ||
+        tempElement.getAttribute('href').includes('map')) ||
       section
     ) {
       this.url = undefined;
 
-      if(section){
-        console.log(Array.from(tempElement.nextElementSibling.children).length);
-        
-      }
+      // if (section) {
+      //   console.log(Array.from(tempElement.nextElementSibling.children).length);
+      // }
       // if (element.id === 'sec1') {
       //   console.log(this._id);
       // }
@@ -78,13 +78,14 @@ export class Navigation implements INavigation {
       // const children = section
       //   ? tempElement.nextElementSibling.children
       //   : tempElement.nextElementSibling.children;
-      Array.from(tempElement.nextElementSibling.children).forEach(
-        childElement => {
+      const docMap = element.querySelector('.doc-map');
+      if (docMap) {
+        Array.from(docMap.children).forEach(childElement => {
           if (childElement) {
             this.navigation.push(new Navigation(childElement));
           }
-        },
-      );
+        });
+      }
       // console.log(this.navigation.length);
     } else {
       try {
