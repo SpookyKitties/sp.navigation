@@ -13,7 +13,7 @@ export class Main {
     const navigation = await this.processFiles(files);
     console.log(`Test ${navigation.length}`);
 
-    fs.writeFileSync(path.resolve('./test.json'), JSON.stringify(navigation));
+    fs.writeFileSync(path.resolve('./navigation.json'), JSON.stringify(navigation));
 
     // db.bulkDocs(navigation);
   }
